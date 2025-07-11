@@ -6,8 +6,15 @@
 </head>
 <body>
   <script>
-    const steamId = window.location.href.split("/").pop();
-    window.location.href = `steamdroid://callback?steamid=${steamId}`;
+    const params = new URLSearchParams(window.location.search);
+    const identity = params.get("openid.identity");
+
+    if (identity && identity.includes("/id/")) {
+      const steamId = identity.split("/").pop();
+      window.location.href = `steamdroid://callback?steamid=${steamId}`;
+    } else {
+      document.body.innerHTML = "<h2>Steam login failed or SteamID not found.</h2>";
+    }
   </script>
 </body>
 </html>
